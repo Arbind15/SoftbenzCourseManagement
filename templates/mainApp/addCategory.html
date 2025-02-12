@@ -1,0 +1,13 @@
+<form action="{% url 'addCategory' %}" method="post"
+                          enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" name="tittle" placeholder="tittle" required><br>
+    <input type="number" name="priority" placeholder="priority" required><br>
+    <select  name="parent">
+        <option value="">Parent</option>
+        {% for cate in categories %}
+        <option value="{{ cate.id }}">{{ cate.title }}</option>
+        {% endfor %}
+    </select><br>
+    <button type="submit">Add</button>
+</form>

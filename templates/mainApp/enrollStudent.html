@@ -1,0 +1,17 @@
+<form action="{% url 'enroll' %}" method="post"
+                          enctype="multipart/form-data">
+    {% csrf_token %}
+    <select  name="student" required>
+        <option value="">Select Student</option>
+        {% for stu in students %}
+        <option value="{{ stu.id }}">{{ stu.username }}</option>
+        {% endfor %}
+    </select><br>
+    <select  name="course" required>
+        <option value="">Select Course</option>
+        {% for cou in courses %}
+        <option value="{{ cou.id }}">{{ cou.title }}</option>
+        {% endfor %}
+    </select><br>
+    <button type="submit">Add</button>
+</form>

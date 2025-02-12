@@ -1,0 +1,11 @@
+<form action="{% url 'mcq' %}" method="post"
+                          enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" name="question" placeholder="student name (must be unique for now...)" style="width: 300px;" required><br><br>
+    <input type="text" name="op1" placeholder="option 1" required><br>
+    <input type="text" name="op2" placeholder="option 2" required><br>
+    <input type="text" name="op3" placeholder="option 3" required><br>
+    <input type="text" name="op4" placeholder="option 4" required><br><br>
+    <input type="text" style="width: 400px;" name="ans" placeholder="Answers seperated by commas (option 1, option 2 ... )" required><br><br>
+    <button type="submit">Add</button>
+</form>
