@@ -1,22 +1,27 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render
 from django.utils.timezone import now
 
 from .models import Enrollment, Student, Category, MCQ, Course, Video, Document
 
+def is_superuser(user):
+    return user.is_authenticated and user.is_superuser
 
+@user_passes_test(is_superuser, login_url='/admin/login/')
 def dashboard(request):
     ctx = {}
     ctx['enrolls'] = Enrollment.objects.all().order_by('-id')
     return render(request, 'mainApp/dashboard.html', ctx)
 
 
+@user_passes_test(is_superuser, login_url='/admin/login/')
 def addStudent(request):
     if request.method == "POST":
         Student.objects.create(username=request.POST.get('name'), email=request.POST.get('email'))
     return render(request, 'mainApp/addStudent.html', {})
 
 
+@user_passes_test(is_superuser, login_url='/admin/login/')
 def mcq(request):
     if request.method == "POST":
         MCQ.objects.create(
@@ -30,6 +35,7 @@ def mcq(request):
     return render(request, 'mainApp/addMCQs.html', {})
 
 
+@user_passes_test(is_superuser, login_url='/admin/login/')
 def addCategory(request):
     if request.method == "POST":
         print(request.POST.get('parent'))
@@ -41,6 +47,7 @@ def addCategory(request):
     return render(request, 'mainApp/addCategory.html', {'categories': Category.objects.all()})
 
 
+@user_passes_test(is_superuser, login_url='/admin/login/')
 def addCourse(request):
     if request.method == "POST":
         cou = Course.objects.create(
@@ -59,6 +66,7 @@ def addCourse(request):
     return render(request, 'mainApp/addCourse.html', {'categories': Category.objects.all(), 'mcqs': MCQ.objects.all()})
 
 
+@user_passes_test(is_superuser, login_url='/admin/login/')
 def enroll(request):
     if request.method == "POST":
         Enrollment.objects.create(student=Student.objects.get(id=int(request.POST.get('student'))),
